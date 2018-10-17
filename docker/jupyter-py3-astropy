@@ -1,0 +1,28 @@
+Bootstrap:docker
+From:mikeg64/jupyter-py3-astropy
+
+%setup
+      #Runs on host. The path to the image is $SINGULARITY_ROOTFS
+
+%post
+      #Post setup, runs inside the image
+
+  #Default mount paths
+      mkdir /scratch /data /shared /fastdata
+
+  #Nvidia driver mount paths, only needed if using GPU
+
+  #Add nvidia driver paths to the environment variables
+
+%runscript
+  #Runs inside the image every time it starts up
+
+%test
+  #Test script to verify that the image is built and running correctly
+  
+  
+#singularity create --size 4096 jupy3astro.img
+#sudo singularity bootstrap jupy3astro.img jupyter-py3-astropy
+
+#to run the image on the cluster
+#singularity shell  singularity/jupy3astro.img

@@ -1,0 +1,52 @@
+FROM continuumio/anaconda3
+MAINTAINER "Andrei Maksimov"
+
+RUN apt-get update && apt-get install -y libgtk2.0-dev && \
+    apt-get install -y git-core && \
+    rm -rf /var/lib/apt/lists/* && \
+    /opt/conda/bin/conda install jupyter -y && \
+    /opt/conda/bin/conda config --add channels conda-forge && \
+    /opt/conda/bin/conda install astropy -y  && \
+    /opt/conda/bin/conda install astroquery -y && \
+    /opt/conda/bin/conda install aplpy -y && \
+    /opt/conda/bin/conda install spectral-cube -y && \
+    /opt/conda/bin/conda install reproject -y
+
+RUN ["mkdir", "notebooks"]
+RUN ["mkdir", "notebooks/galaxout"]
+
+# Add Tini. Tini operates as a process subreaper for jupyter. This prevents
+# kernel crashes.
+ENV TINI_VERSION v0.6.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
+RUN chmod +x /usr/bin/tini
+ENTRYPOINT ["/usr/bin/tini", "--"]
+
+
+
+# Store notebooks in this mounted directory
+VOLUME /notebooks
+
+
+# Create a new system user
+RUN useradd -ms /bin/bash jupyter
+
+# Change to this new user
+USER jupyter
+
+# Set the container working directory to the user home folder
+WORKDIR /home/jupyter
+
+
+
+
+RUN git clone https://github.com/littlelogking/virtual-astro
+
+
+#Jupyter
+EXPOSE 8888
+CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0"]
+
+
+
+
