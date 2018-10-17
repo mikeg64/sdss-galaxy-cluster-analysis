@@ -15,3 +15,5 @@ jupyter service available on ShARC.  Further work experimented with the singular
 
 Further details 
 [research-computing-notes, matlabdataanalysiscasestudy](https://sites.google.com/a/sheffield.ac.uk/rcg/my-blog/research-computing-notes/matlabdataanalysiscasestudy)
+
+[Docker Image for SDSS Astropy Jupyter Utility](https://hub.docker.com/r/mikeg64/jupyter-py3-astropy/)
