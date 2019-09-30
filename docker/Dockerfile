@@ -40,6 +40,9 @@ USER jupyter
 # Set the container working directory to the user home folder
 WORKDIR /home/jupyter
 
+RUN ["mkdir", "notebooks"]
+RUN ["cd", "notebooks"]
+
 RUN git clone https://github.com/littlelogking/virtual-astro
 
 
